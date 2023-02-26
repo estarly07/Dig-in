@@ -3,26 +3,8 @@ import 'package:dig_in/presentation/models/food_model.dart';
 import 'package:flutter/material.dart';
 
 class MostPopularFoods extends StatelessWidget {
-  MostPopularFoods({Key? key}) : super(key: key);
-  final list = [
-    FoodModel(
-        0,
-        "Hot dog",
-        "https://www.vvsupremo.com/wp-content/uploads/2016/02/900X570_Mexican-Style-Hot-Dogs.jpg",
-        "description",
-        5.5,
-        0,
-        1),
-    FoodModel(
-        0,
-        "American recipes",
-        "https://images.immediate.co.uk/production/volatile/sites/30/2022/08/Corndogs-7832ef6.jpg?quality=90&resize=556,505",
-        "description",
-        5.5,
-        0,
-        1),
-    
-  ];
+  final List<FoodModel> foods;
+  const MostPopularFoods({Key? key,required this.foods}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +15,9 @@ class MostPopularFoods extends StatelessWidget {
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4,mainAxisSpacing: size.height * 0.025
         ),
-        itemCount: list.length,
+        itemCount: foods.length,
         itemBuilder: (BuildContext ctx, index) {
-          return _ItemFood(radius: size.width * 0.15, food: list[index]);
+          return _ItemFood(radius: size.width * 0.15, food: foods[index]);
         });
   }
 }

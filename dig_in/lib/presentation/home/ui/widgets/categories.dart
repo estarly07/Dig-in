@@ -3,13 +3,8 @@ import 'package:dig_in/presentation/models/category_model.dart';
 import 'package:flutter/material.dart';
 
 class Categories extends StatelessWidget {
-  Categories({Key? key}) : super(key: key);
-  List<CategoryModel> list = [
-    CategoryModel(idCategory: 0,image : "https://comboypizza.com/pereira/wp-content/uploads/sites/3/revslider/slider11.png",name: "Pizza"),
-    CategoryModel(idCategory: 1,image : "https://monsterburguer.com/wp-content/uploads/2022/10/burguer4.png",name: "Burger"),
-    CategoryModel(idCategory: 2,image : "https://sushilight.com/wp-content/uploads/2019/05/Ebi-tempura.png",name: "Sushi"),
-  ];
-
+  const Categories({Key? key,required this.categories}) : super(key: key);
+  final List<CategoryModel> categories;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -18,13 +13,13 @@ class Categories extends StatelessWidget {
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           physics: const BouncingScrollPhysics(),
-          itemCount: list.length,
+          itemCount: categories.length,
           itemBuilder: (context, index) =>
             _ItemCategory(
               heigth:  size.height * 0.1,
-              categoryModel: list[index],
+              categoryModel: categories[index],
               marginLeft: size.width*0.05,
-              isSelect: list[index].idCategory == 0,
+              isSelect: categories[index].idCategory == 0,
             ),
         ));
   }
