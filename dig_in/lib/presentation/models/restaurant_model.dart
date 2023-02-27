@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class RestaurantModel {
   final int idRestaurant;
   final String name;

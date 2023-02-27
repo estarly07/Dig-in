@@ -91,11 +91,13 @@ class _AboutRestaurant extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomText(
-              text: restaurant.name,
-              textColor: Colors.black,
-              fontSize: 17,
-              withBold: true,
+            Expanded(
+              child: CustomText(
+                text: restaurant.name,
+                textColor: Colors.black,
+                fontSize: 17,
+                withBold: true,
+              ),
             ),
             CustomIconText(
               text: "${restaurant.rating}",

@@ -8,7 +8,7 @@ class CategoryResponse {
     required this.image,
     required this.name});
 
-  factory CategoryResponse.fromJson(Map<String, dynamic> json, int datarutasId) => CategoryResponse(
+  factory CategoryResponse.fromJson(Map<String, dynamic> json) => CategoryResponse(
        idCategory : json["idCategory"],
        image      : json["image"],
        name       : json["name"],

@@ -1,3 +1,5 @@
+import 'package:dig_in/data/api/response/food_response.dart';
+
 class RestaurantResponse {
   final int idRestaurant;
   final String name;
