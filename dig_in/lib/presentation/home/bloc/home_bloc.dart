@@ -3,9 +3,9 @@ import 'package:dig_in/base/base_result_use_case.dart';
 import 'package:dig_in/domain/categories/get_categories_use_case.dart';
 import 'package:dig_in/domain/food/get_most_popular_foods_use_case.dart';
 import 'package:dig_in/domain/restaurants/get_most_popular_restaurants_use_case.dart';
-import 'package:dig_in/presentation/models/category_model.dart';
-import 'package:dig_in/presentation/models/food_model.dart';
-import 'package:dig_in/presentation/models/restaurant_model.dart';
+import 'package:dig_in/domain/models/category_model.dart';
+import 'package:dig_in/domain/models/food_model.dart';
+import 'package:dig_in/domain/models/restaurant_model.dart';
 import 'package:meta/meta.dart';
 
 part 'home_event.dart';

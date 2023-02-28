@@ -1,5 +1,5 @@
 import 'package:dig_in/presentation/global/widgets/custom_text.dart';
-import 'package:dig_in/presentation/models/food_model.dart';
+import 'package:dig_in/domain/models/food_model.dart';
 import 'package:flutter/material.dart';
 
 class MostPopularFoods extends StatelessWidget {

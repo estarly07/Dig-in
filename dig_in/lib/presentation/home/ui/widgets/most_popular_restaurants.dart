@@ -1,7 +1,7 @@
+import 'package:dig_in/domain/models/restaurant_model.dart';
 import 'package:dig_in/presentation/global/widgets/custom_card.dart';
 import 'package:dig_in/presentation/global/widgets/custom_text.dart';
 import 'package:dig_in/presentation/home/ui/widgets/widget.dart';
-import 'package:dig_in/presentation/models/restaurant_model.dart';
 import 'package:flutter/material.dart';
 
 class MostPopularRestaurants extends StatelessWidget {
@@ -109,7 +109,7 @@ class _AboutRestaurant extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         Row(
           children: [
             restaurant.haveDelivery? CustomIconText(

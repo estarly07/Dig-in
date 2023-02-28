@@ -1,5 +1,5 @@
 import 'package:dig_in/presentation/global/widgets/global_widgets.dart';
-import 'package:dig_in/presentation/models/category_model.dart';
+import 'package:dig_in/domain/models/category_model.dart';
 import 'package:flutter/material.dart';
 
 class Categories extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:dig_in/base/base_result_repository.dart';
 import 'package:dig_in/data/api/response/category_response.dart';
 import 'package:dig_in/data/api/services/CategoryService.dart';
-import 'package:dig_in/presentation/models/category_model.dart';
+import 'package:dig_in/domain/models/category_model.dart';
 
 class CategoryRepository {
   Future<BaseResultRepository> getCategories() async{

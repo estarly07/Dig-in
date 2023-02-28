@@ -1,7 +1,7 @@
 import 'package:dig_in/base/base_result_repository.dart';
 import 'package:dig_in/data/api/response/food_response.dart';
 import 'package:dig_in/data/api/services/food_service.dart';
-import 'package:dig_in/presentation/models/food_model.dart';
+import 'package:dig_in/domain/models/food_model.dart';
 
 class FoodRepository {
   Future<BaseResultRepository> getFoods() async {

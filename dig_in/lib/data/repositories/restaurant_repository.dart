@@ -1,7 +1,7 @@
 import 'package:dig_in/base/base_result_repository.dart';
 import 'package:dig_in/data/api/response/restaurant_response.dart';
 import 'package:dig_in/data/api/services/restaurants_service.dart';
-import 'package:dig_in/presentation/models/restaurant_model.dart';
+import 'package:dig_in/domain/models/restaurant_model.dart';
 
 class RestaurantRepository {
    Future<BaseResultRepository> getRestaurants() async {
