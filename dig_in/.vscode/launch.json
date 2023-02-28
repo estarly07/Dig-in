@@ -5,21 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "dig_in",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "dig_in (profile mode)",
+            "name": "client",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "program": "lib/main_client.dart",
+            "args": ["--flavor", "client", "--target", "lib/main_client.dart" ]
         },
         {
-            "name": "dig_in (release mode)",
+            "name": "owner",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
-        }
-    ]
+            "program": "lib/main_owner.dart",
+            "args": ["--flavor", "owner", "--target", "lib/main_owner.dart" ]
+        },
+        
+    ],
+    "compounds": []
 }

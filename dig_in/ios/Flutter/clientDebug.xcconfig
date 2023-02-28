@@ -1,0 +1,6 @@
+#include "Generated.xcconfig"
+
+FLUTTER_TARGET=lib/main_client.dart
+ASSET_PREFIX=client
+BUNDLE_NAME=Dig In client
+BASE_URL=variable1

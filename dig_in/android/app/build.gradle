@@ -26,6 +26,26 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
+
+    flavorDimensions "flavor-type"
+
+    productFlavors {
+        client {
+            dimension "flavor-type"
+            applicationId "com.estarly.dig_in.client"
+            resValue "string", "app_name", "Dig In client"
+        }
+        owner {
+            dimension "flavor-type"
+            applicationId "com.estarly.dig_in.owner"
+            resValue "string", "app_name", "Dig In owner"
+        }
+    }
+
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
     compileSdkVersion flutter.compileSdkVersion
 
     compileOptions {
@@ -43,7 +63,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.dig_in"
+        applicationId "com.estarly.dig_in"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()

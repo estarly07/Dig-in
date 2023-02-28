@@ -37,10 +37,39 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  flutter_flavorizr: ^2.1.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+flavorizr:
+  flavors:
+    client:
+      app:
+          name: "Dig In client"
+      android:
+        applicationId: "com.estarly.dig_in.client"
+        variables:
+          BASE_URL:
+            value: "variable1"
+      ios:
+        bundleId: "com.example.digIn.client"
+        variables:
+          BASE_URL:
+            value: "variable1"
+    owner:
+      app:
+          name: "Dig In owner"
+      android:
+        applicationId: "com.estarly.dig_in.owner"
+        variables:
+          BASE_URL:
+            value: "variable1"
+      ios:
+        bundleId: "com.estarly.dig_in.owner"
+        variables:
+          BASE_URL:
+            value: "variable1"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

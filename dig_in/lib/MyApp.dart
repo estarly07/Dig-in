@@ -3,8 +3,6 @@ import 'package:dig_in/presentation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() => runApp( MyApp());
-
 class MyApp extends StatelessWidget {
    MyApp({Key? key}) : super(key: key);
 
