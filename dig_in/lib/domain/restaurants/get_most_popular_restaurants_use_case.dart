@@ -1,10 +1,11 @@
-import 'package:dig_in/base/base_result_use_case.dart';
 import 'package:dig_in/base/base_result_repository.dart' as repository;
+import 'package:dig_in/base/base_result_use_case.dart';
 import 'package:dig_in/data/repositories/restaurant_repository.dart';
 import 'package:dig_in/domain/models/restaurant_model.dart';
 
 class GetMostPopularRestaurantsUseCase {
-  final RestaurantRepository restaurantRepository = RestaurantRepository();
+  final RestaurantRepository restaurantRepository;
+  GetMostPopularRestaurantsUseCase(this.restaurantRepository);
   Future<BaseResultUseCase> getMostPopularRestaurantsUseCase() async {
     try {
       final response = await restaurantRepository.getRestaurants();

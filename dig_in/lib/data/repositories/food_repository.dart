@@ -4,9 +4,12 @@ import 'package:dig_in/data/api/services/food_service.dart';
 import 'package:dig_in/domain/models/food_model.dart';
 
 class FoodRepository {
+  final FoodService foodService;
+  FoodRepository(this.foodService);
+  
   Future<BaseResultRepository> getFoods() async {
     try {
-      final response =await FoodService().getFood();
+      final response =await foodService.getFood();
       if(response == null){
         return BaseResultRepository.nullOrEmptyData();
       }else{

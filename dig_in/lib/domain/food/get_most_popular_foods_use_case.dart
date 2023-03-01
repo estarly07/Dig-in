@@ -1,10 +1,11 @@
-import 'package:dig_in/base/base_result_use_case.dart';
 import 'package:dig_in/base/base_result_repository.dart' as repository;
-
+import 'package:dig_in/base/base_result_use_case.dart';
 import 'package:dig_in/data/repositories/food_repository.dart';
 
 class GetMostPopularFoodsUseCase {
-  final FoodRepository foodRepository = FoodRepository();
+  final FoodRepository foodRepository;
+  GetMostPopularFoodsUseCase(this.foodRepository);
+
   Future<BaseResultUseCase> getMostPopularFoodsUseCase() async {
     try {
       final response =await foodRepository.getFoods();

@@ -4,9 +4,12 @@ import 'package:dig_in/data/api/services/CategoryService.dart';
 import 'package:dig_in/domain/models/category_model.dart';
 
 class CategoryRepository {
+  final CategoryService categoryService;
+  CategoryRepository(this.categoryService);
+  
   Future<BaseResultRepository> getCategories() async{
     try {
-      final response = await CategoryService().getCategories();
+      final response = await categoryService.getCategories();
       if(response==null){
         return BaseResultRepository.nullOrEmptyData();
       }else{

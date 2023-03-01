@@ -2,21 +2,25 @@ import 'package:bloc/bloc.dart';
 import 'package:dig_in/base/base_result_use_case.dart';
 import 'package:dig_in/domain/categories/get_categories_use_case.dart';
 import 'package:dig_in/domain/food/get_most_popular_foods_use_case.dart';
-import 'package:dig_in/domain/restaurants/get_most_popular_restaurants_use_case.dart';
 import 'package:dig_in/domain/models/category_model.dart';
 import 'package:dig_in/domain/models/food_model.dart';
 import 'package:dig_in/domain/models/restaurant_model.dart';
+import 'package:dig_in/domain/restaurants/get_most_popular_restaurants_use_case.dart';
 import 'package:meta/meta.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final GetCategoriesUseCase getCategoriesUseCase = GetCategoriesUseCase();
-  final GetMostPopularFoodsUseCase getMostPupularFoodsEvent = GetMostPopularFoodsUseCase();
-  final GetMostPopularRestaurantsUseCase getMostPopularRestaurantsUseCase = GetMostPopularRestaurantsUseCase();
+  final GetCategoriesUseCase getCategoriesUseCase;
+  final GetMostPopularFoodsUseCase getMostPupularFoodsUseCase;
+  final GetMostPopularRestaurantsUseCase getMostPopularRestaurantsUseCase;
 
-  HomeBloc() : super(HomeInitial()) {
+  HomeBloc(
+    this.getCategoriesUseCase,
+    this.getMostPupularFoodsUseCase,
+    this.getMostPopularRestaurantsUseCase
+  ) : super(HomeInitial()) {
     on<GetCategoriesEvent>((event, emit) async {
       emit(ChangeDataState(
         categories : state.categories, 
@@ -50,7 +54,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         restaurants: state.restaurants,
         showWaitRestaurants: state.showWaitRestaurants
       ));
-      final response = await getMostPupularFoodsEvent.getMostPopularFoodsUseCase();
+      final response = await getMostPupularFoodsUseCase.getMostPopularFoodsUseCase();
       switch (response.runtimeType) {
         case SuccessResponse:
            emit(ChangeDataState(

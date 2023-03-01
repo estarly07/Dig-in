@@ -1,3 +1,4 @@
+import 'package:dig_in/di/di.dart';
 import 'package:dig_in/presentation/home/bloc/home_bloc.dart';
 import 'package:dig_in/presentation/routes.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers:[
-        BlocProvider(create: (context) => HomeBloc(),),
+        BlocProvider(create: (context) => getIt<HomeBloc>(),),
       ],
       child: MaterialApp(
         routes: routes(),
