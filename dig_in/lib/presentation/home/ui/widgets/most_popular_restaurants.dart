@@ -1,6 +1,5 @@
 import 'package:dig_in/domain/models/restaurant_model.dart';
-import 'package:dig_in/presentation/global/widgets/custom_card.dart';
-import 'package:dig_in/presentation/global/widgets/custom_text.dart';
+import 'package:dig_in/presentation/global/widgets/global_widgets.dart';
 import 'package:dig_in/presentation/home/ui/widgets/widget.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +14,23 @@ class MostPopularRestaurants extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return wait
-        ? CircularProgressIndicator()
+        ?  SizedBox(
+            height: size.height * 0.3,
+            child: ListView(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: [
+                  ...[1,2,3].map((e) => 
+                  CustomBackgroundWait(
+                    corners: size.height * 0.02,
+                    margin: EdgeInsets.only(left: size.width * 0.05),
+                    widget: Container(
+                      width: size.width * 0.9,
+                    ),
+                  )).toList()
+                ]
+            ),
+          )
         : SizedBox(
             height: size.height * 0.3,
             child: ListView.builder(

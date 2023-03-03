@@ -10,21 +10,31 @@ class Categories extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return 
-    wait? CircularProgressIndicator():
      SizedBox(
         height: size.height * 0.1,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          physics: const BouncingScrollPhysics(),
-          itemCount: categories.length,
-          itemBuilder: (context, index) =>
-            _ItemCategory(
-              heigth:  size.height * 0.1,
-              categoryModel: categories[index],
-              marginLeft: size.width*0.05,
-              isSelect: categories[index].idCategory == 0,
-            ),
-        ));
+        child: wait?
+          ListView.builder(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            itemCount: 4,
+            itemBuilder: (context, index) =>
+              _ItemCategoryWait(
+                heigth:  size.height * 0.1, 
+                marginLeft: size.width*0.05, 
+              )
+          )
+        : ListView.builder(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            itemCount: categories.length,
+            itemBuilder: (context, index) =>
+              _ItemCategory(
+                heigth:  size.height * 0.1,
+                categoryModel: categories[index],
+                marginLeft: size.width*0.05,
+                isSelect: categories[index].idCategory == 0,
+              ),
+          ));
   }
 }
 
@@ -86,6 +96,27 @@ class _ItemCategory extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+class _ItemCategoryWait extends StatelessWidget {
+  final double heigth;
+  final double marginLeft;
+  const _ItemCategoryWait({
+    Key? key,
+    required this.heigth,
+    required this.marginLeft,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: marginLeft),
+      child: CustomBackgroundWait(
+        corners: heigth,
+        margin: EdgeInsets.zero,
+        widget: SizedBox(height: heigth,width: heigth*1.5,),
+      )
     );
   }
 }

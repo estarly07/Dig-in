@@ -1,5 +1,5 @@
 import 'package:dig_in/domain/models/food_model.dart';
-import 'package:dig_in/presentation/global/widgets/custom_text.dart';
+import 'package:dig_in/presentation/global/widgets/global_widgets.dart';
 import 'package:flutter/material.dart';
 
 class MostPopularFoods extends StatelessWidget {
@@ -10,8 +10,18 @@ class MostPopularFoods extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return wait? CircularProgressIndicator():
+    return wait? 
       GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,mainAxisSpacing: size.height * 0.025
+          ),
+          itemCount: 8,
+          itemBuilder: (BuildContext ctx, index) {
+            return _ItemFoodWait(radius: size.width * 0.15,); 
+          })
+      :GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -55,6 +65,36 @@ class _ItemFood extends StatelessWidget {
           withBold: true,
           textColor: Colors.black, 
           fontSize: 13,)
+      ],
+    );
+  }
+}
+class _ItemFoodWait extends StatelessWidget {
+  final double radius;
+
+  const _ItemFoodWait({
+    Key? key,
+    required this.radius,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CustomBackgroundWait(
+            widget: SizedBox(width: radius,height: radius,), 
+            corners: radius,
+            margin: EdgeInsets.zero,
+        ),
+        const SizedBox(height: 10,),
+        CustomBackgroundWait(
+            widget: SizedBox(
+              width: double.infinity,
+              height: 13,
+            ), 
+            corners: 13,
+            margin: EdgeInsets.zero
+        )
       ],
     );
   }
