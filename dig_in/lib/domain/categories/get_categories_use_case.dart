@@ -4,11 +4,12 @@ import 'package:dig_in/data/repositories/category_repository.dart';
 import 'package:dig_in/domain/models/category_model.dart';
 
 class GetCategoriesUseCase {
-  final CategoryRepository categoryRepository;
-  GetCategoriesUseCase(this.categoryRepository);
-  Future<BaseResultUseCase> getCategories() async {
+  final CategoryRepository _categoryRepository;
+  GetCategoriesUseCase(this._categoryRepository);
+
+  Future<BaseResultUseCase>  getCategories() async {
     try {
-      final response = await categoryRepository.getCategories();
+      final response = await _categoryRepository.getCategories();
       switch (response.runtimeType) {
         case repository.SuccessResponse:
           return BaseResultUseCase.success(

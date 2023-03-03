@@ -6,25 +6,30 @@ import 'package:flutter/material.dart';
 
 class MostPopularRestaurants extends StatelessWidget {
   final List<RestaurantModel> restaurants;
-  const MostPopularRestaurants({Key? key,required this.restaurants}) : super(key: key);
+  final bool wait;
+  const MostPopularRestaurants(
+      {Key? key, required this.restaurants, required this.wait})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return SizedBox(
-      height: size.height * 0.3,
-      child: ListView.builder(
-        itemCount: restaurants.length,
-        physics: const BouncingScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => _itemRestaurant(
-          width: size.width * 0.9,
-          corners: size.height * 0.02,
-          margin: size.width * 0.05,
-          restaurantModel: restaurants[index],
-        ),
-      ),
-    );
+    return wait
+        ? CircularProgressIndicator()
+        : SizedBox(
+            height: size.height * 0.3,
+            child: ListView.builder(
+              itemCount: restaurants.length,
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) => _itemRestaurant(
+                width: size.width * 0.9,
+                corners: size.height * 0.02,
+                margin: size.width * 0.05,
+                restaurantModel: restaurants[index],
+              ),
+            ),
+          );
   }
 }
 
@@ -64,8 +69,10 @@ class _itemRestaurant extends StatelessWidget {
               ),
               Flexible(
                 child: Padding(
-                  padding: EdgeInsets.all(margin*0.6),
-                  child: _AboutRestaurant(restaurant: restaurantModel,),
+                  padding: EdgeInsets.all(margin * 0.6),
+                  child: _AboutRestaurant(
+                    restaurant: restaurantModel,
+                  ),
                 ),
               )
             ],
@@ -81,7 +88,8 @@ class _itemRestaurant extends StatelessWidget {
 class _AboutRestaurant extends StatelessWidget {
   final RestaurantModel restaurant;
   const _AboutRestaurant({
-    Key? key,required this.restaurant,
+    Key? key,
+    required this.restaurant,
   }) : super(key: key);
 
   @override
@@ -109,17 +117,23 @@ class _AboutRestaurant extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
         Row(
           children: [
-            restaurant.haveDelivery? CustomIconText(
-              text: "Free delivery",
-              textColor: Colors.black,
-              fontSize: 13,
-              icon: Icons.star,
-              colorIcon: Colors.yellow.shade900,
-            ): Container(),
-            const SizedBox(width: 10,),
+            restaurant.haveDelivery
+                ? CustomIconText(
+                    text: "Free delivery",
+                    textColor: Colors.black,
+                    fontSize: 13,
+                    icon: Icons.star,
+                    colorIcon: Colors.yellow.shade900,
+                  )
+                : Container(),
+            const SizedBox(
+              width: 10,
+            ),
             CustomIconText(
               text: "${restaurant.attentionTimeRange} mins",
               textColor: Colors.black,

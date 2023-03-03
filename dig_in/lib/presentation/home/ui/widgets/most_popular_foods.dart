@@ -1,24 +1,26 @@
-import 'package:dig_in/presentation/global/widgets/custom_text.dart';
 import 'package:dig_in/domain/models/food_model.dart';
+import 'package:dig_in/presentation/global/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class MostPopularFoods extends StatelessWidget {
   final List<FoodModel> foods;
-  const MostPopularFoods({Key? key,required this.foods}) : super(key: key);
+  final bool wait;
+  const MostPopularFoods({Key? key,required this.foods,required this.wait}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,mainAxisSpacing: size.height * 0.025
-        ),
-        itemCount: foods.length,
-        itemBuilder: (BuildContext ctx, index) {
-          return _ItemFood(radius: size.width * 0.15, food: foods[index]);
-        });
+    return wait? CircularProgressIndicator():
+      GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,mainAxisSpacing: size.height * 0.025
+          ),
+          itemCount: foods.length,
+          itemBuilder: (BuildContext ctx, index) {
+            return _ItemFood(radius: size.width * 0.15, food: foods[index]);
+          });
   }
 }
 

@@ -1,14 +1,17 @@
-import 'package:dig_in/presentation/global/widgets/global_widgets.dart';
 import 'package:dig_in/domain/models/category_model.dart';
+import 'package:dig_in/presentation/global/widgets/global_widgets.dart';
 import 'package:flutter/material.dart';
 
 class Categories extends StatelessWidget {
-  const Categories({Key? key,required this.categories}) : super(key: key);
+  const Categories({Key? key,required this.categories,required this.wait}) : super(key: key);
   final List<CategoryModel> categories;
+  final bool wait;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return SizedBox(
+    return 
+    wait? CircularProgressIndicator():
+     SizedBox(
         height: size.height * 0.1,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
