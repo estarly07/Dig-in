@@ -1,6 +1,6 @@
 import 'package:dig_in/base/base_result_repository.dart' as repository;
 import 'package:dig_in/base/base_result_use_case.dart';
-import 'package:dig_in/data/repositories/category_repository.dart';
+import 'package:dig_in/domain/categories/category_repository.dart';
 import 'package:dig_in/domain/models/category_model.dart';
 
 class GetCategoriesUseCase {

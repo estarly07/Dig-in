@@ -1,12 +1,14 @@
 import 'package:dig_in/base/base_result_repository.dart';
 import 'package:dig_in/data/api/response/category_response.dart';
 import 'package:dig_in/data/api/services/CategoryService.dart';
+import 'package:dig_in/domain/categories/category_repository.dart';
 import 'package:dig_in/domain/models/category_model.dart';
 
-class CategoryRepository {
+class CategoryRepositoryImpl  implements CategoryRepository{
   final CategoryService categoryService;
-  CategoryRepository(this.categoryService);
+  CategoryRepositoryImpl(this.categoryService);
   
+  @override
   Future<BaseResultRepository> getCategories() async{
     try {
       final response = await categoryService.getCategories();
