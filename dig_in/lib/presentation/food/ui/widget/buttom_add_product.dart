@@ -1,5 +1,6 @@
 
 import 'package:dig_in/presentation/global/widgets/global_widgets.dart';
+import 'package:dig_in/presentation/screens.dart';
 import 'package:flutter/material.dart';
 
 class ButtonAddProduct extends StatelessWidget {
@@ -29,9 +30,9 @@ class ButtonAddProduct extends StatelessWidget {
                 ButtonAddOrSubstractCant(
                   size: size,
                   color: Colors.white,
-                  count: 1,
-                  onAdd: (){},
-                  onSubstract: (){},
+                  count:FoodScreenProvider.of(context).count,
+                  onAdd: FoodScreenProvider.of(context).onAdd,
+                  onSubstract: FoodScreenProvider.of(context).onSubstract,
                 ),
                 SizedBox(width: size.width * 0.02,),
                 CustomCard(

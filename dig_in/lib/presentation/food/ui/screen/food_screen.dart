@@ -47,10 +47,37 @@ class FoodScreen extends StatelessWidget {
             bottom: size.height * 0.01,
             left: 0,
             right: 0,
-            child: ButtonAddProduct(size: size),
+            child: FoodScreenProvider(
+              count: 2,
+              onAdd: (){},
+              onSubstract: (){},
+              child: ButtonAddProduct(size: size)),
           )
         ],
       )
     );
+  }
+}
+
+class FoodScreenProvider extends InheritedWidget {
+  final int count;
+   final Function onAdd;
+  final Function onSubstract;
+
+  FoodScreenProvider(
+    {
+      Key? key,
+      required this.count,
+      required Widget child,
+      required this.onAdd, 
+      required this.onSubstract, 
+    }
+  ) : super(key: key,child: child);
+  @override
+  bool updateShouldNotify(FoodScreenProvider oldWidget) {
+    return true;
+  }
+  static FoodScreenProvider of(BuildContext context){
+    return context.dependOnInheritedWidgetOfExactType<FoodScreenProvider>()!;
   }
 }
