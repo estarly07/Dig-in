@@ -1,7 +1,7 @@
 import 'package:dig_in/base/base_result_repository.dart' as repository;
 import 'package:dig_in/base/base_result_use_case.dart';
-import 'package:dig_in/data/repositories/restaurant_repository.dart';
 import 'package:dig_in/domain/models/restaurant_model.dart';
+import 'package:dig_in/domain/restaurants/restaurant_repository.dart';
 
 class GetMostPopularRestaurantsUseCase {
   final RestaurantRepository restaurantRepository;

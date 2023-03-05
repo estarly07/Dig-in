@@ -1,12 +1,14 @@
 import 'package:dig_in/base/base_result_repository.dart';
 import 'package:dig_in/data/api/response/food_response.dart';
 import 'package:dig_in/data/api/services/food_service.dart';
+import 'package:dig_in/domain/food/food_reposiroty.dart';
 import 'package:dig_in/domain/models/food_model.dart';
 
-class FoodRepository {
+class FoodRepositoryImpl implements FoodRepository {
   final FoodService foodService;
-  FoodRepository(this.foodService);
+  FoodRepositoryImpl(this.foodService);
   
+  @override
   Future<BaseResultRepository> getFoods() async {
     try {
       final response =await foodService.getFood();

@@ -1,6 +1,6 @@
 import 'package:dig_in/base/base_result_repository.dart' as repository;
 import 'package:dig_in/base/base_result_use_case.dart';
-import 'package:dig_in/data/repositories/food_repository.dart';
+import 'package:dig_in/domain/food/food_reposiroty.dart';
 
 class GetMostPopularFoodsUseCase {
   final FoodRepository foodRepository;
