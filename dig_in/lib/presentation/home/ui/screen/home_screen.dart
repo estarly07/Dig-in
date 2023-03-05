@@ -3,6 +3,7 @@ import 'package:dig_in/presentation/home/blocs/home_categories_bloc/home_categor
 import 'package:dig_in/presentation/home/blocs/most_popular_foods/most_popular_foods_bloc.dart';
 import 'package:dig_in/presentation/home/blocs/most_popular_restaurants/most_popular_restaurants_bloc.dart';
 import 'package:dig_in/presentation/home/ui/widgets/widget.dart';
+import 'package:dig_in/presentation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -100,6 +101,7 @@ class _Body extends StatelessWidget {
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
               child: MostPopularFoods(
+                  onTap : (foodModel) => Screens.navigationTo(context: context, page: Screens.food,arguments: foodModel),
                   foods: state is LoadedMostPopularFoods
                       ? (state).mostPopularFoods
                       : [],

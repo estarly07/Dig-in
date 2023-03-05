@@ -5,7 +5,13 @@ import 'package:flutter/material.dart';
 class MostPopularFoods extends StatelessWidget {
   final List<FoodModel> foods;
   final bool wait;
-  const MostPopularFoods({Key? key,required this.foods,required this.wait}) : super(key: key);
+  final Function(dynamic FoodModel) onTap;
+  const MostPopularFoods({
+    Key? key,
+    required this.foods,
+    required this.wait, 
+    required this.onTap
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +35,9 @@ class MostPopularFoods extends StatelessWidget {
           ),
           itemCount: foods.length,
           itemBuilder: (BuildContext ctx, index) {
-            return _ItemFood(radius: size.width * 0.15, food: foods[index]);
+            return InkWell(
+              onTap: () => onTap(foods[index]),
+              child: _ItemFood(radius: size.width * 0.15, food: foods[index]));
           });
   }
 }
@@ -50,14 +58,17 @@ class _ItemFood extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(radius),
-          child: FadeInImage(
-              placeholder: const AssetImage("assets/images/no_image.jpg"),
-              fadeOutDuration: const Duration(seconds: 1),
-              image: NetworkImage(food.image),
-              fit: BoxFit.cover,
-              height: radius,
-              width: radius,
-            ),
+          child: Hero(
+            tag: food.idFood,
+            child: FadeInImage(
+                placeholder: const AssetImage("assets/images/no_image.jpg"),
+                fadeOutDuration: const Duration(seconds: 1),
+                image: NetworkImage(food.image),
+                fit: BoxFit.cover,
+                height: radius,
+                width: radius,
+              ),
+          ),
         ),
         const SizedBox(height: 10,),
         CustomText(
