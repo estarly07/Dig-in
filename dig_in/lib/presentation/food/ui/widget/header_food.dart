@@ -5,7 +5,7 @@ class Header extends StatelessWidget {
   final Size size;
   final String imageFood;
   final Function onBack;
-  final int idHero;
+  final String idHero;
   const Header({
     Key? key,
     required this.size, 

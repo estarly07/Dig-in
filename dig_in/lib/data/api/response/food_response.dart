@@ -1,5 +1,5 @@
 class FoodResponse {
-  final int idFood;
+  final String idFood;
   final String name;
   final String image;
   final String description;

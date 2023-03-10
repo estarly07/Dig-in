@@ -1,6 +1,5 @@
 
 import 'package:dig_in/presentation/global/widgets/global_widgets.dart';
-import 'package:dig_in/presentation/screens.dart';
 import 'package:flutter/material.dart';
 
 class ButtonAddProduct extends StatelessWidget {
@@ -17,33 +16,42 @@ class ButtonAddProduct extends StatelessWidget {
       widget: Wrap(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: size.width * 0.1),
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.1,vertical: size.height * 0.01),
             child: Row(
               children: [
-                CustomText(
-                  text: "\$35.78", 
-                  withBold: true,
-                  withOverflow: true,
-                  textColor: Colors.white,
-                  fontSize: 20),
-                Spacer(),
-                ButtonAddOrSubstractCant(
-                  size: size,
-                  color: Colors.white,
-                  count:FoodScreenProvider.of(context).count,
-                  onAdd: FoodScreenProvider.of(context).onAdd,
-                  onSubstract: FoodScreenProvider.of(context).onSubstract,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: "Total Price", 
+                      withOverflow: true,
+                      textColor: Colors.white,
+                      fontSize: 12),
+                    CustomText(
+                      text: "\$35.78", 
+                      withBold: true,
+                      withOverflow: true,
+                      textColor: Colors.white,
+                      fontSize: 20),
+                  ],
                 ),
+                Spacer(),
+                
                 SizedBox(width: size.width * 0.02,),
                 CustomCard(
                   widget: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Icon(Icons.production_quantity_limits),
+                    padding: const EdgeInsets.symmetric(vertical :8.0, horizontal: 15),
+                    child: CustomText(
+                        text: "Add to cart", 
+                        withBold: true,
+                        withOverflow: true,
+                        textColor: Colors.orange.shade900,
+                        fontSize: 15),
                   ), 
                   shadowColor: Colors.transparent, 
                   elevation: 0, 
                   backgroundColor: Colors.white, 
-                  cornerRadius: 5
+                  cornerRadius: size.height
                 )
               ],
             ),
@@ -58,45 +66,3 @@ class ButtonAddProduct extends StatelessWidget {
   }
 }
 
-class ButtonAddOrSubstractCant extends StatelessWidget {
-  final Color color;
-  final int count;
-  final Function onAdd;
-  final Function onSubstract;
-
-  const ButtonAddOrSubstractCant({
-    Key? key,
-    required this.size, 
-    required this.color, 
-    required this.count, 
-    required this.onAdd, 
-    required this.onSubstract
-  }) : super(key: key);
-  final Size size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: size.height * 0.01),
-      padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
-      height: size.height * 0.06,
-      width: 100,
-      decoration: BoxDecoration(
-        border: Border.all(color: color,width: 1),
-        borderRadius: BorderRadius.circular(size.height),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-            onTap: ()=> onAdd(),
-            child: Icon(Icons.add, color: color,)),
-          CustomText(text: "$count", textColor: color, fontSize: 15),
-          InkWell(
-            onTap: ()=> onSubstract(),
-            child: Icon(Icons.remove ,color: color,))
-        ],
-      ),
-    );
-  }
-}

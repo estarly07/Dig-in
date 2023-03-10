@@ -1,27 +1,29 @@
+import 'package:dig_in/domain/models/comment_model.dart';
 import 'package:dig_in/presentation/global/widgets/global_widgets.dart';
 import 'package:flutter/material.dart';
 
 class Comment extends StatelessWidget {
-  Comment({Key? key, required this.size})
+  Comment({Key? key, required this.size, required this.comment})
       : super(
           key: key,
         );
   final Size size;
+  final CommentModel comment;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: size.height * 0.025),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _Header(size: size),
+          _Header(size: size,comment:comment),
           SizedBox(
             height: size.height * 0.01,
           ),
           CustomText(
               withOverflow: false,
               maxLines: null,
-              text:
-                  "messsdddddddddddddd a gesssssssssssssssssssssssssssssssssssss",
+              text: comment.comment,
               textColor: Colors.grey,
               fontSize: 15),
         ],
@@ -31,9 +33,10 @@ class Comment extends StatelessWidget {
 }
 
 class _Header extends StatefulWidget {
-  _Header({Key? key,required this.size}) : super(key: key);
+  _Header({Key? key,required this.size, required this.comment}) : super(key: key);
   bool error = false;
   final Size size;
+  final CommentModel comment;
   @override
   State<_Header> createState() => _HeaderState();
 }
@@ -78,7 +81,7 @@ class _HeaderState extends State<_Header> {
                   CustomText(
                       text: "message", textColor: Colors.black, fontSize: 15),
                   CustomText(
-                      text: "aug 12, 2019",
+                      text: widget.comment.date,
                       textColor: Colors.grey,
                       fontSize: 15),
                 ],

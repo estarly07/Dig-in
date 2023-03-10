@@ -7,4 +7,6 @@ class FoodService extends ProvideDio{
   factory FoodService() => _foodService;
 
   Future<Response?> getFood() async => await dio.get("foods.json");
+
+  Future<Response?> getComments(String idFood) async => await dio.get("comments/$idFood.json");
 }

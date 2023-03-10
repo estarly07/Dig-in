@@ -1,4 +1,6 @@
 import 'package:dig_in/di/di.dart';
+import 'package:dig_in/presentation/food/blocs/comments/comments_bloc.dart';
+import 'package:dig_in/presentation/food/blocs/food/food_bloc.dart';
 import 'package:dig_in/presentation/home/blocs/home_categories_bloc/home_categories_bloc.dart';
 import 'package:dig_in/presentation/home/blocs/most_popular_foods/most_popular_foods_bloc.dart';
 import 'package:dig_in/presentation/home/blocs/most_popular_restaurants/most_popular_restaurants_bloc.dart';
@@ -15,7 +17,9 @@ class MyApp extends StatelessWidget {
       providers:[
         BlocProvider(create: (context) => getIt<HomeCategoriesBloc>(),),
         BlocProvider(create: (context) => getIt<MostPopularFoodsBloc>(),),
-        BlocProvider(create: (context) => getIt<MostPopularRestaurantsBloc>(),)
+        BlocProvider(create: (context) => getIt<MostPopularRestaurantsBloc>(),),
+        BlocProvider(create: (context) => getIt<FoodBloc>()),
+        BlocProvider(create: (context) => getIt<CommentsBloc>())
       ],
       child: MaterialApp(
         routes: routes(),
