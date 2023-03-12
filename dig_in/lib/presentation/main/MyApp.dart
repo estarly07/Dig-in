@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         routes: routes(),
-        initialRoute: initialRoute(true),
+        initialRoute: initialRoute(false),
       ),
     );
   }
