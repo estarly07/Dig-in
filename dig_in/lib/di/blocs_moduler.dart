@@ -13,5 +13,5 @@ void init(GetIt getIt){
   getIt.registerFactory(() => MostPopularRestaurantsBloc(getIt()));
   getIt.registerFactory(() => FoodBloc());
   getIt.registerFactory(() => CommentsBloc(getIt()));
-  getIt.registerFactory(() => LoginBloc(getIt()));
+  getIt.registerFactory(() => LoginBloc(getIt(),getIt()));
 }

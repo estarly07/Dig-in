@@ -5,7 +5,7 @@ import 'package:dig_in/data/repositories/login_repository.dart';
 import 'package:dig_in/data/repositories/restaurant_repository.dart';
 import 'package:dig_in/domain/categories/category_repository.dart';
 import 'package:dig_in/domain/food/food_reposiroty.dart';
-import 'package:dig_in/domain/login/login_repository.dart';
+import 'package:dig_in/domain/login/user_repository.dart';
 import 'package:dig_in/domain/restaurants/restaurant_repository.dart';
 import 'package:get_it/get_it.dart';
 
@@ -13,5 +13,5 @@ void init(GetIt getIt){
   getIt.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(getIt()), );
   getIt.registerLazySingleton<FoodRepository>(() => FoodRepositoryImpl(getIt()), );
   getIt.registerLazySingleton<RestaurantRepository>(() => RestaurantRepositoryImpl(getIt()), );
-  getIt.registerLazySingleton<LoginRepository>(( )=> LoginRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<UserRepository>(( )=> UserRepositoryImpl(getIt()));
 }

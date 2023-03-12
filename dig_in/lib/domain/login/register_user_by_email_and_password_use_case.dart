@@ -1,15 +1,14 @@
 import 'package:dig_in/base/base_result_repository.dart' as repository;
 import 'package:dig_in/base/base_result_use_case.dart';
-import 'package:dig_in/domain/login/user_repository.dart';
+import 'package:dig_in/domain/login/login_repository.dart';
 
-class LoginByEmailAndPasswordUseCase {
-  final UserRepository _userRepository;
+class RegisterUserByEmailAndPasswordUseCase {
+  final LoginRepository _loginRepository;
+  RegisterUserByEmailAndPasswordUseCase(this._loginRepository);
 
-  LoginByEmailAndPasswordUseCase(this._userRepository);
-
-  Future<BaseResultUseCase> loginByEmailAndPassword(String email,String password) async {
+  Future<BaseResultUseCase> registerUserByEmailAndPassword (String email,String password) async {
     try {
-      final response = await _userRepository.loginByEmailAndPassword(email, password);
+      final response = await _loginRepository.registerUserByEmailAndPassword(email,password);
       switch (response.runtimeType) {
         case repository.SuccessResponse:
           return BaseResultUseCase.success((response as repository.SuccessResponse).data);
@@ -23,5 +22,4 @@ class LoginByEmailAndPasswordUseCase {
       return BaseResultUseCase.errorApi(e);
     }
   }
-  
 }

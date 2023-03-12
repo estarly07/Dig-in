@@ -13,8 +13,14 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool showLogin = true;
+  //LOGIN
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
+  //REGISTER
+  final TextEditingController _controllerEmailRegister = TextEditingController();
+  final TextEditingController _controllerPasswordRegister = TextEditingController();
+  final TextEditingController _controllerNamesRegister = TextEditingController();
+  final TextEditingController _controllerLastnamesRegister = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +81,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               size: size,
                               child: const Login())
                           : RegisterProvider(
-                              controllerEmail: TextEditingController(),
-                              controllerPass: TextEditingController(),
-                              controllerLastname: TextEditingController(),
-                              controllerName: TextEditingController(),
+                              controllerEmail: _controllerEmailRegister,
+                              controllerPass: _controllerPasswordRegister,
+                              controllerLastname: _controllerLastnamesRegister,
+                              controllerName: _controllerNamesRegister,
                               size: size,
                               child: const Register()),
                       SizedBox(
@@ -98,10 +104,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       CustomButton(
                         color: Colors.orange.shade900,
                         onTap: () {
-                          context.read<LoginBloc>().add(
+                          if(showLogin){
+                            context.read<LoginBloc>().add(
                               LoginByEmailAndPasswordEvent(
                                   _controllerEmail.text.trim(),
                                   _controllerPassword.text.trim()));
+                          }else{
+                            context.read<LoginBloc>().add(
+                              RegisterUserEvent(
+                                _controllerEmailRegister.text.trim(), 
+                                _controllerPasswordRegister.text.trim(), 
+                                _controllerNamesRegister.text.trim(), 
+                                _controllerLastnamesRegister.text.trim()
+                              )
+                            );
+                          }
                         },
                         wait: state is LoadingState,
                         text: showLogin? "Login" :"Register",
