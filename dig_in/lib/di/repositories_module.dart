@@ -1,8 +1,8 @@
 
 import 'package:dig_in/data/repositories/category_repository.dart';
 import 'package:dig_in/data/repositories/food_repository.dart';
-import 'package:dig_in/data/repositories/login_repository.dart';
 import 'package:dig_in/data/repositories/restaurant_repository.dart';
+import 'package:dig_in/data/repositories/user_repository.dart';
 import 'package:dig_in/domain/categories/category_repository.dart';
 import 'package:dig_in/domain/food/food_reposiroty.dart';
 import 'package:dig_in/domain/login/user_repository.dart';

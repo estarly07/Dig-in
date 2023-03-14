@@ -20,7 +20,7 @@ class Login extends StatelessWidget {
                 controller: LoginProvider.of(context).controllerEmail, 
                 hintText: "Email",
                 prefixIcon: Icon(Icons.email,color: Colors.grey.shade400,),
-                textColor: Colors.grey.shade400,
+                textColor: Colors.grey,
                 
               ),
               SizedBox(height: LoginProvider.of(context).size.height * 0.1,),
@@ -28,7 +28,7 @@ class Login extends StatelessWidget {
                 textType: TextInputType.emailAddress, 
                 controller: LoginProvider.of(context).controllerPass, 
                 hintText: "Password",
-                textColor:Colors.grey.shade400,
+                textColor:Colors.grey,
                 isPassword: true,
                 prefixIcon: Icon(Icons.lock_open_rounded,color: Colors.grey.shade400,),
               )

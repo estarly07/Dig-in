@@ -3,9 +3,9 @@ import 'package:dig_in/base/base_result_use_case.dart';
 import 'package:dig_in/domain/login/user_repository.dart';
 import 'package:dig_in/domain/models/user_model.dart';
 
-class RegisterIngoUserUseCase {
+class RegisterInfoUserUseCase {
   final UserRepository _userRepository;
-  RegisterIngoUserUseCase(this._userRepository);
+  RegisterInfoUserUseCase(this._userRepository);
   Future<BaseResultUseCase> registerIngoUser(UserModel userModel) async {
     try {
       final response = await _userRepository.registerUser(userModel);

@@ -24,6 +24,10 @@ class Screens {
   static navigationTo({
     required BuildContext context,
     required String       page,
-    Object? arguments
-  }) => Navigator.pushNamed(context, page, arguments: arguments);
+    bool    onBack = true,
+    Object? arguments, 
+  }) => 
+  onBack?
+    Navigator.pushNamed(context, page, arguments: arguments):
+    Navigator.pushReplacementNamed(context, page);
 }

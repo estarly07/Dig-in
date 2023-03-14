@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => getIt<MostPopularRestaurantsBloc>(),),
         BlocProvider(create: (context) => getIt<FoodBloc>()),
         BlocProvider(create: (context) => getIt<CommentsBloc>()),
-        BlocProvider(create: (context) => getIt<LoginBloc>()),
+        BlocProvider(create: (context) => LoginBloc(context,getIt(),getIt(),getIt())),
       ],
       child: MaterialApp(
         routes: routes(),
