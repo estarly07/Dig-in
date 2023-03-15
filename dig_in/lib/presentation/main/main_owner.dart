@@ -10,5 +10,5 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   di.init(); //init dependencies
-  runApp(const MyApp());
+  runApp(MyApp());
 }

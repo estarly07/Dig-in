@@ -8,7 +8,14 @@ class UserResponse {
 
   UserResponse(this.email, this.password, this.name, this.lastname, this.uid,
       this.image);
-
+  factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
+    json["email"], 
+    json["password"], 
+    json["name"], 
+    json["lastname"], 
+    json["uid"], 
+    json["image"]
+  );
   Map<String, dynamic> toJson() 
   => {
         "email"    : email,

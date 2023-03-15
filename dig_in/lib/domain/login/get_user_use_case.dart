@@ -1,17 +1,15 @@
 import 'package:dig_in/base/base_result_repository.dart' as repository;
 import 'package:dig_in/base/base_result_use_case.dart';
 import 'package:dig_in/domain/login/user_repository.dart';
-import 'package:dig_in/domain/models/user_model.dart';
-import 'package:dig_in/log.dart';
 
-class RegisterInfoUserUseCase {
+class GetUserUseCase {
   final UserRepository _userRepository;
-  final _tag = "RegisterInfoUserUseCase";
-  RegisterInfoUserUseCase(this._userRepository);
-  Future<BaseResultUseCase> registerIngoUser(UserModel userModel) async {
+
+  GetUserUseCase(this._userRepository);
+
+  Future<BaseResultUseCase> getUser(String uid) async {
     try {
-      final response = await _userRepository.registerUser(userModel);
-      Log.i(_tag, "${response.runtimeType}");
+      final response = await _userRepository.getUserRemote(uid);
       switch (response.runtimeType) {
         case repository.SuccessResponse:
           return BaseResultUseCase.success((response as repository.SuccessResponse).data);
@@ -25,4 +23,5 @@ class RegisterInfoUserUseCase {
       return BaseResultUseCase.errorApi(e);
     }
   }
+  
 }

@@ -1,4 +1,5 @@
 import 'package:dig_in/di/blocs_moduler.dart'       as diBlocs;
+import 'package:dig_in/di/database_module.dart'     as diDatabase;
 import 'package:dig_in/di/repositories_module.dart' as diRepositories;
 import 'package:dig_in/di/services_module.dart'     as diServices;
 import 'package:dig_in/di/use_case_module.dart'     as diUseCases;
@@ -10,5 +11,6 @@ void init(){
   diRepositories.init(getIt);
   diUseCases    .init(getIt);
   diBlocs       .init(getIt);
+  diDatabase    .init(getIt);
 
 }

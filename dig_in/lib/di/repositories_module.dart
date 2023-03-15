@@ -13,5 +13,5 @@ void init(GetIt getIt){
   getIt.registerLazySingleton<CategoryRepository>(() => CategoryRepositoryImpl(getIt()), );
   getIt.registerLazySingleton<FoodRepository>(() => FoodRepositoryImpl(getIt()), );
   getIt.registerLazySingleton<RestaurantRepository>(() => RestaurantRepositoryImpl(getIt()), );
-  getIt.registerLazySingleton<UserRepository>(( )=> UserRepositoryImpl(getIt()));
+  getIt.registerLazySingleton<UserRepository>(( )=> UserRepositoryImpl(getIt(),getIt()));
 }

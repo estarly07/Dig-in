@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyApp extends StatelessWidget {
-   const MyApp({Key? key}) : super(key: key);
-
+  MyApp({Key? key}) : super(key: key);
+  final navigatorKey = GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -21,9 +21,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => getIt<MostPopularRestaurantsBloc>(),),
         BlocProvider(create: (context) => getIt<FoodBloc>()),
         BlocProvider(create: (context) => getIt<CommentsBloc>()),
-        BlocProvider(create: (context) => LoginBloc(context,getIt(),getIt(),getIt())),
+        BlocProvider(create: (context) => LoginBloc(navigatorKey.currentContext!,getIt(),getIt(),getIt(),getIt(),getIt())),
       ],
       child: MaterialApp(
+        navigatorKey: navigatorKey,
         routes: routes(),
         initialRoute: initialRoute(false),
       ),

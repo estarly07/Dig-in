@@ -1,3 +1,4 @@
+import 'package:dig_in/data/api/database/database_service.dart';
 import 'package:dig_in/data/api/firebase/login_service_firebase.dart';
 import 'package:dig_in/data/api/services/CategoryService.dart';
 import 'package:dig_in/data/api/services/food_service.dart';
@@ -9,4 +10,5 @@ void init(GetIt getIt){
   getIt.registerFactory(() => FoodService());
   getIt.registerFactory(() => RestaurantsService());
   getIt.registerFactory(() => LoginServiceFirebase());
+  getIt.registerFactory(() => DatabaseService(getIt()));
 }
