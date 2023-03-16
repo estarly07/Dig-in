@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dig_in/base/base_result_use_case.dart';
+import 'package:dig_in/data/api/sharedpreferences/app_preferences.dart';
 import 'package:dig_in/domain/login/get_user_use_case.dart';
 import 'package:dig_in/domain/login/login_by_email_password_user_case.dart';
 import 'package:dig_in/domain/login/register_info_user_use_case.dart';
@@ -27,7 +28,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     this._registerUserByEmailAndPasswordUseCase,
     this._registerInfoUserUseCase,
     this._registerUserLocalUseCase,
-    this._getUserUseCase
+    this._getUserUseCase,
+    AppPreferences _preferences
   ) : super(LoginInitial()) {
     on<LoginByEmailAndPasswordEvent>((event, emit) async{
       emit(LoadingState());
@@ -47,8 +49,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             switch (responseUser.runtimeType) {
               case SuccessResponse:
                 Log.i(_tag,"getUser => ${(responseUser as SuccessResponse).data}");
-                final r = await _registerUserLocalUseCase.registerUserLocal(responseUser.data);
-                Log.i(_tag,"registerUserLocal => ${r.runtimeType}");
+                await _registerUserLocalUseCase.registerUserLocal(responseUser.data);
+                _preferences.isLogin = true;
                 Screens.navigationTo(
                   context: _context, 
                   page: Screens.home,
@@ -56,10 +58,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                 );
                 break;
               case NullOrEmptyData:
+                Log.i(_tag,"getUser => NullOrEmptyData");
                 break;
               case NoConnectionInternet:
+                Log.i(_tag,"getUser => NoConnectionInternet");
                 break;
               case ErrorResponseApi:
+                Log.i(_tag,"getUser => ErrorResponseApi ${(responseUser as ErrorResponseApi).error}");
                 break;
             }
 
@@ -67,13 +72,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           break;
         case ErrorResponseApi:
             print((response as ErrorResponseApi).error);
+            Log.i(_tag,"loginByEmailAndPassword => ErrorResponseApi ${(response).error}");
             emit(ErrorApiState());
           break;
         case NullOrEmptyData:
-            emit(ErrorApiState());
-            print("null");
-        break;
         default:
+          Log.i(_tag,"loginByEmailAndPassword => NullOrEmptyData");
+          emit(ErrorApiState());
+          break;
       }
     });
     

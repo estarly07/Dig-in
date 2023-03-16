@@ -1,3 +1,4 @@
+import 'package:dig_in/data/api/sharedpreferences/app_preferences.dart';
 import 'package:dig_in/di/di.dart' as di;
 import 'package:dig_in/presentation/main/MyApp.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,5 +11,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   di.init(); //init dependencies
+  await di.getIt<AppPreferences>().initPreferences();//init preferences
   runApp(MyApp());
 }

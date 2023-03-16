@@ -1,3 +1,4 @@
+import 'package:dig_in/data/api/sharedpreferences/app_preferences.dart';
 import 'package:dig_in/di/di.dart';
 import 'package:dig_in/presentation/food/blocs/comments/comments_bloc.dart';
 import 'package:dig_in/presentation/food/blocs/food/food_bloc.dart';
@@ -21,12 +22,14 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => getIt<MostPopularRestaurantsBloc>(),),
         BlocProvider(create: (context) => getIt<FoodBloc>()),
         BlocProvider(create: (context) => getIt<CommentsBloc>()),
-        BlocProvider(create: (context) => LoginBloc(navigatorKey.currentContext!,getIt(),getIt(),getIt(),getIt(),getIt())),
+        BlocProvider(create: (context) => LoginBloc(
+          navigatorKey.currentContext!,
+          getIt(),getIt(),getIt(),getIt(),getIt(),getIt())),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
         routes: routes(),
-        initialRoute: initialRoute(false),
+        initialRoute: initialRoute(getIt<AppPreferences>().isLogin),
       ),
     );
   }
