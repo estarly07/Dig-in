@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:dig_in/base/base_result_use_case.dart';
 import 'package:dig_in/data/api/sharedpreferences/app_preferences.dart';
 import 'package:dig_in/domain/login/get_user_use_case.dart';
@@ -10,6 +9,7 @@ import 'package:dig_in/domain/models/user_model.dart';
 import 'package:dig_in/log.dart';
 import 'package:dig_in/presentation/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -30,78 +30,79 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     this._registerUserLocalUseCase,
     this._getUserUseCase,
     AppPreferences _preferences
-  ) : super(LoginInitial()) {
+  ) : super(LoginState.initial()) {
     on<LoginByEmailAndPasswordEvent>((event, emit) async{
-      emit(LoadingState());
-      if(event.email.isEmpty || event.password.isEmpty){
+      emit(LoginState.loading());//show progrees
+      if(event.email.isEmpty || event.password.isEmpty){//check that all fields are not empty
         Log.i(_tag,"La informacion es vacia");
-        emit(ErrorState());
+        emit(LoginState.error());
         return;
       }
-
+      //login in firebase 
       final response = await _loginByEmailAndPasswordUseCase.loginByEmailAndPassword(event.email, event.password);
       Log.i(_tag,"loginByEmailAndPassword => ${response.runtimeType}");
+
       switch (response.runtimeType) {
         case SuccessResponse:
             Log.i(_tag,"loginByEmailAndPassword => ${(response as SuccessResponse).data}");
+            //get user data from firestore
             final responseUser = await _getUserUseCase.getUser(response.data);
             Log.i(_tag,"getUser => ${responseUser.runtimeType}");
             switch (responseUser.runtimeType) {
               case SuccessResponse:
                 Log.i(_tag,"getUser => ${(responseUser as SuccessResponse).data}");
+                //register data in local database
                 await _registerUserLocalUseCase.registerUserLocal(responseUser.data);
+                //save already logged in 
                 _preferences.isLogin = true;
-                Screens.navigationTo(
-                  context: _context, 
-                  page: Screens.home,
-                  onBack: false
-                );
+                //go to home screen
+                Screens.navigationTo(context: _context, page: Screens.home,onBack: false);
                 break;
               case NullOrEmptyData:
                 Log.i(_tag,"getUser => NullOrEmptyData");
                 break;
               case NoConnectionInternet:
                 Log.i(_tag,"getUser => NoConnectionInternet");
+                emit(LoginState.noConnectionInternet());
                 break;
               case ErrorResponseApi:
                 Log.i(_tag,"getUser => ErrorResponseApi ${(responseUser as ErrorResponseApi).error}");
                 break;
             }
 
-            emit(LoadedState());
+            emit(LoginState.loaded());
           break;
         case ErrorResponseApi:
-            print((response as ErrorResponseApi).error);
-            Log.i(_tag,"loginByEmailAndPassword => ErrorResponseApi ${(response).error}");
-            emit(ErrorApiState());
+            Log.i(_tag,"loginByEmailAndPassword => ErrorResponseApi ${(response as ErrorResponseApi).error}");
+            emit(LoginState.errorApi());
+          break;
+        case NoConnectionInternet:
+            Log.i(_tag,"loginByEmailAndPassword => NoConnectionInternet");
+            emit(LoginState.noConnectionInternet());
           break;
         case NullOrEmptyData:
         default:
           Log.i(_tag,"loginByEmailAndPassword => NullOrEmptyData");
-          emit(ErrorApiState());
+          emit(LoginState.errorApi());
           break;
       }
     });
     
     on<RegisterUserEvent>((event, emit) async {
-      emit(LoadingState());
-      if(
-        event.email.isEmpty || 
-        event.password.isEmpty ||
-        event.name.isEmpty ||
-        event.lastname.isEmpty 
-      ){
-        Log.i("LOGIN BLOC","La informacion es vacia");
-        emit(ErrorState());
+      emit(LoginState.loading());//show progrees
+      //check that all fields are not empty
+      if(event.email.isEmpty || event.password.isEmpty ||event.name.isEmpty ||event.lastname.isEmpty){
+        Log.i(_tag,"La informacion es vacia");
+        emit(LoginState.error());
         return;
       }
-      final response = await _registerUserByEmailAndPasswordUseCase.registerUserByEmailAndPassword(
-        event.email, event.password
-      );
+      //register in autentification by email and password
+      final response = await _registerUserByEmailAndPasswordUseCase.registerUserByEmailAndPassword(event.email, event.password);
       switch (response.runtimeType) {
         case SuccessResponse:
-            Log.i("LOGIN BLOC","${(response as SuccessResponse).data}");
-            final responseUser = await registerUser(UserModel(
+            Log.i(_tag,"${(response as SuccessResponse).data}");
+            //register user in firestore
+            final responseUser = await _registerInfoUserUseCase.registerInfoUser(UserModel(
               event.email, 
               event.password, 
               event.name, 
@@ -109,120 +110,41 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               response.data,
               ""
             ));
-            Log.i("LOGIN BLOC","responseUser => ${responseUser.runtimeType}");
+            Log.i(_tag,"responseUser => ${responseUser.runtimeType}");
             switch (responseUser.runtimeType) {
               case SuccessResponse:
-                Screens.navigationTo(
-                  context: _context, 
-                  page: Screens.home,
-                  onBack: false
-                );
-                emit(LoadedState());
+                _context.read<LoginBloc>().add(LoginByEmailAndPasswordEvent(event.email, event.password));
+                emit(LoginState.loaded());
                 break;
               case ErrorResponseApi:
-                  print((response as ErrorResponseApi).error);
-                  emit(ErrorApiState());
+                  Log.i(_tag,"responseUser => ${(response as ErrorResponseApi).error}");
+                  emit(LoginState.errorApi());
+                break;
+              case NoConnectionInternet:
+                  emit(LoginState.noConnectionInternet());
                 break;
               case NullOrEmptyData:
-                  emit(ErrorApiState());
-                  print("null");
-              break;
               default:
+                  emit(LoginState.error());
+              break;
             }
           break;
         case ErrorResponseApi:
-            print((response as ErrorResponseApi).error);
-
+            Log.i(_tag, "${(response as ErrorResponseApi).error}");
             if(response.error.toString().contains("email-already-in-use")){
-              final responseLogin = await _loginByEmailAndPasswordUseCase.loginByEmailAndPassword(event.email, event.password);
-              switch (responseLogin.runtimeType) {
-                case SuccessResponse:
-                    print((responseLogin as SuccessResponse).data);
-                    final user = UserModel(
-                      event.email, 
-                      event.password, 
-                      event.name, 
-                      event.lastname, 
-                      responseLogin.data,
-                      ""
-                    );
-                    final responseUser = await registerUser(user);
-                    switch (responseUser.runtimeType) {
-                      case SuccessResponse:
-                        if(await registerUserLocal(user)){
-                          Screens.navigationTo(
-                            context: _context, 
-                            page: Screens.home,
-                            onBack: false
-                          );
-                          emit(LoadedState());
-                        }
-                        
-                        break;
-                      case ErrorResponseApi:
-                          print((response).error);
-                          emit(ErrorApiState());
-                        break;
-                      case NullOrEmptyData:
-                          emit(ErrorApiState());
-                          print("null");
-                      break;
-                      default:
-                    }
-                    emit(LoadedState());
-                  break;
-                case ErrorResponseApi:
-                    print((response).error);
-                    emit(ErrorApiState());
-                  break;
-                case NullOrEmptyData:
-                    emit(ErrorApiState());
-                    print("null");
-                break;
-                default:
-              }
-             
+              _context.read<LoginBloc>().add(LoginByEmailAndPasswordEvent(event.email, event.password));
             }else {
-              emit(ErrorApiState());
+              emit(LoginState.errorApi());
             }
           break;
+        case NoConnectionInternet:
+            emit(LoginState.noConnectionInternet());
+          break;
         case NullOrEmptyData:
-            emit(ErrorApiState());
-            print("null");
-        break;
         default:
+            emit(LoginState.error());
+        break;
       }
     });
-  }
-  Future<BaseResultUseCase> registerUser(UserModel userModel) async {
-    final responseUser = await _registerInfoUserUseCase.registerIngoUser(UserModel(
-      userModel.email, 
-      userModel.password, 
-      userModel.name, 
-      userModel.lastname, 
-      userModel.uid,
-      userModel.image
-    ));
-    switch (responseUser.runtimeType) {
-      case SuccessResponse:
-        return SuccessResponse((responseUser as SuccessResponse).data);
-      case ErrorResponseApi:
-        print((responseUser as ErrorResponseApi).error);
-        return ErrorResponseApi(responseUser.error);
-      case NullOrEmptyData:
-      default:
-        print("null");
-        return NullOrEmptyData();
-    }
-  }
-  
-  Future<bool> registerUserLocal(UserModel user)  async {
-    final response = await _registerUserLocalUseCase.registerUserLocal(user);
-    switch (response.runtimeType) {
-      case SuccessResponse:
-        return (response as SuccessResponse).data;
-      default:
-        return false;
-    }
   }
 }

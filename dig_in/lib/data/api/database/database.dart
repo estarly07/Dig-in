@@ -27,7 +27,7 @@ class Database {
           name TEXT,
           lastname TEXT,
           uid TEXT PRIMARY KEY,
-          image TEXT,
+          image TEXT
         )
         ''');
       },

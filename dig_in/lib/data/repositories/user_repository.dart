@@ -52,9 +52,9 @@ class UserRepositoryImpl implements UserRepository {
       );
       Log.i(_tag,"$response");
       if(response){
-        return BaseResultRepository.nullOrEmptyData();
-      }else{
         return BaseResultRepository.success(response);
+      }else{
+        return BaseResultRepository.nullOrEmptyData();
       }
     } on Exception catch (e) {
       Log.e(_tag,"$e");

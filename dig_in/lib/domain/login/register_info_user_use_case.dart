@@ -8,7 +8,7 @@ class RegisterInfoUserUseCase {
   final UserRepository _userRepository;
   final _tag = "RegisterInfoUserUseCase";
   RegisterInfoUserUseCase(this._userRepository);
-  Future<BaseResultUseCase> registerIngoUser(UserModel userModel) async {
+  Future<BaseResultUseCase> registerInfoUser(UserModel userModel) async {
     try {
       final response = await _userRepository.registerUser(userModel);
       Log.i(_tag, "${response.runtimeType}");
