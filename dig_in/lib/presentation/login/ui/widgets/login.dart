@@ -8,7 +8,7 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = LoginProvider.of(context).size;
+    final size  = LoginProvider.of(context).size;
     final state = LoginProvider.of(context).state;
     return Column(
       children: [
@@ -62,7 +62,7 @@ class Login extends StatelessWidget {
             fontSize: 17,
           ),
         ),
-        SizedBox( height:size.height * 0.15),
+        SizedBox( height:size.height * 0.05),
         CustomButton(
           color: Colors.orange.shade900,
           onTap: () => LoginProvider.of(context).onTap(),

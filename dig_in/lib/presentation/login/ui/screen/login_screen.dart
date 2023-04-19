@@ -19,14 +19,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   //REGISTER
-  final TextEditingController _controllerEmailRegister =
-      TextEditingController();
-  final TextEditingController _controllerPasswordRegister =
-      TextEditingController();
-  final TextEditingController _controllerNamesRegister =
-      TextEditingController();
-  final TextEditingController _controllerLastnamesRegister =
-      TextEditingController();
+  final TextEditingController _controllerEmailRegister = TextEditingController();
+  final TextEditingController _controllerPasswordRegister = TextEditingController();
+  final TextEditingController _controllerNamesRegister = TextEditingController();
+  final TextEditingController _controllerLastnamesRegister =TextEditingController();
   var showProgressButton = false;
 
   @override
@@ -35,47 +31,13 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          _Background(size: size),
+          Background(size: size),
           SafeArea(
             child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
                 child: ListView(
                   children: [
-                    SizedBox(
-                      height: size.height * 0.24,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () => setState(() => showLogin = true ),
-                          child: CustomText(
-                            text: "Login",
-                            textColor: showLogin
-                                ? Colors.white
-                                : Colors.grey.shade300.withOpacity(0.5),
-                            fontSize: 25,
-                            withBold: true,
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => setState(() {
-                            showLogin = false;
-                          }),
-                          child: CustomText(
-                            text: "Signup",
-                            textColor: showLogin
-                                ? Colors.grey.shade300.withOpacity(0.5)
-                                : Colors.white,
-                            fontSize: 25,
-                            withBold: !showLogin,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: size.height * 0.02,
-                    ),
+                    SizedBox(height: showLogin? size.height * 0.24 : size.height * 0.05,),
                     BlocBuilder<LoginBloc, LoginState>(
                       builder: (context, state) {
                         return showLogin? 
@@ -109,37 +71,37 @@ class _LoginScreenState extends State<LoginScreen> {
                             size: size,
                             child: const Register());
                       },
-                    )
+                    ),
+                    SizedBox(height: size.height * 0.02,),
+                    LineWithOr(color: Colors.grey.shade400,),
+                    SizedBox(height: size.height * 0.02,),
+                    SocialMedia(size: size.width * 0.12,),
+                    SizedBox(height: size.height * 0.02,),
+                    InkWell(
+                      onTap: () => setState(() {showLogin = !showLogin;}),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomText(
+                            text: showLogin?"Don't have an account" : "Already have an Account",
+                            textColor: Colors.black,
+                            fontSize: 15,
+                          ),
+                          SizedBox(width: 10,),
+                          CustomText(
+                            text:showLogin? "Register" : "Log in",
+                            textColor: Colors.orange.shade900,
+                            fontSize: 15,
+                            withBold: !showLogin,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 )),
           )
         ],
       ),
-    );
-  }
-}
-
-class _Background extends StatelessWidget {
-  const _Background({
-    Key? key,
-    required this.size,
-  }) : super(key: key);
-
-  final Size size;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(25),
-          child: Image.asset(
-            "assets/images/food.jpg",
-            fit: BoxFit.cover,
-            height: size.height * 0.4,
-          ),
-        ),
-      ],
     );
   }
 }
