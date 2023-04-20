@@ -11,6 +11,8 @@ import 'package:dig_in/presentation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../domain/login/login_by_google_use_case.dart';
+
 part 'login_event.dart';
 part 'login_state.dart';
 
@@ -20,6 +22,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final RegisterInfoUserUseCase _registerInfoUserUseCase;
   final RegisterUserLocalUseCase _registerUserLocalUseCase;
   final GetUserUseCase _getUserUseCase;
+  final LoginByGoogleUseCase _loginByGoogleUseCase;
   final BuildContext _context;
   final _tag = "LoginBloc";
   LoginBloc(
@@ -29,6 +32,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     this._registerInfoUserUseCase,
     this._registerUserLocalUseCase,
     this._getUserUseCase,
+    this._loginByGoogleUseCase,
     AppPreferences _preferences
   ) : super(LoginState.initial()) {
     on<LoginByEmailAndPasswordEvent>((event, emit) async{
@@ -104,7 +108,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             //register user in firestore
             final responseUser = await _registerInfoUserUseCase.registerInfoUser(UserModel(
               event.email, 
-              event.password, 
               event.name, 
               event.lastname, 
               response.data,
@@ -136,6 +139,74 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             }else {
               emit(LoginState.errorApi());
             }
+          break;
+        case NoConnectionInternet:
+            emit(LoginState.noConnectionInternet());
+          break;
+        case NullOrEmptyData:
+        default:
+            emit(LoginState.error());
+        break;
+      }
+    });
+    on<LoginByGoogleEvent>((event, emit) async {
+      final response =await _loginByGoogleUseCase.loginByGoogle();//login by google
+      switch (response.runtimeType) {
+        case SuccessResponse:
+            //get user data from firestore
+            final responseUser = await _getUserUseCase.getUser((response as SuccessResponse).data.uid);
+            Log.i(_tag,"getUser => ${responseUser.runtimeType}");
+            switch (responseUser.runtimeType) {
+              case SuccessResponse:
+                Log.i(_tag,"getUser => ${(responseUser as SuccessResponse).data}");
+                //register data in local database
+                await _registerUserLocalUseCase.registerUserLocal(responseUser.data);
+                //save already logged in 
+                _preferences.isLogin = true;
+                //go to home screen
+                Screens.navigationTo(context: _context, page: Screens.home,onBack: false);
+                break;
+              case NullOrEmptyData:
+                Log.i(_tag,"getUser => NullOrEmptyData");
+                final responseRegister = await _registerInfoUserUseCase.registerInfoUser(response.data);
+                Log.i(_tag,"responseUser => ${responseRegister.runtimeType}");
+                switch (responseRegister.runtimeType) {
+                  case SuccessResponse:
+                    Log.i(_tag,"getUser => ${response.data}");
+                    //register data in local database
+                    await _registerUserLocalUseCase.registerUserLocal(response.data);
+                    //save already logged in 
+                    _preferences.isLogin = true;
+                    //go to home screen
+                    Screens.navigationTo(context: _context, page: Screens.home,onBack: false);
+                    emit(LoginState.loaded());
+                    break;
+                  case ErrorResponseApi:
+                      Log.i(_tag,"responseUser => ${(responseRegister as ErrorResponseApi).error}");
+                      emit(LoginState.errorApi());
+                    break;
+                  case NoConnectionInternet:
+                      emit(LoginState.noConnectionInternet());
+                    break;
+                  case NullOrEmptyData:
+                  default:
+                      emit(LoginState.error());
+                  break;
+                }
+                break;
+              case NoConnectionInternet:
+                Log.i(_tag,"getUser => NoConnectionInternet");
+                emit(LoginState.noConnectionInternet());
+                break;
+              case ErrorResponseApi:
+                Log.i(_tag,"getUser => ErrorResponseApi ${(responseUser as ErrorResponseApi).error}");
+                break;
+            }
+
+            emit(LoginState.loaded());
+          break;
+        case ErrorResponseApi:
+            emit(LoginState.errorApi());
           break;
         case NoConnectionInternet:
             emit(LoginState.noConnectionInternet());

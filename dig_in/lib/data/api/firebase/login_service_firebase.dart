@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dig_in/log.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginServiceFirebase {
   final _tag = "LoginServiceFirebase";
@@ -59,6 +60,26 @@ class LoginServiceFirebase {
       throw e;
     }
   }
-  
+
+  Future<User?> loginByGoogle() async {
+    try{
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      final GoogleSignInAccount? googleSignInAccount = await googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+        await _auth.signInWithCredential(credential);
+        Log.i(_tag,"${_auth.currentUser?.uid}");
+        return _auth.currentUser;
+      }
+      return null;
+    } on FirebaseAuthException catch(e){
+      Log.e(_tag,"$e");
+      throw e;
+    }
+  }
   
 }

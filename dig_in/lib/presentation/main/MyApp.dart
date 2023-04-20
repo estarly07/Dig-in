@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => getIt<CommentsBloc>()),
         BlocProvider(create: (context) => LoginBloc(
           navigatorKey.currentContext!,
-          getIt(),getIt(),getIt(),getIt(),getIt(),getIt())),
+          getIt(),getIt(),getIt(),getIt(),getIt(),getIt(),getIt())),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,

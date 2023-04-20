@@ -7,6 +7,7 @@ class LoginByEmailAndPasswordEvent extends LoginEvent{
   final String password;
   LoginByEmailAndPasswordEvent(this.email, this.password);
 }
+class LoginByGoogleEvent extends LoginEvent {}
 class RegisterUserEvent extends LoginEvent {
   final String email;
   final String password;

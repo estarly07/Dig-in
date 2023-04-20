@@ -5,6 +5,7 @@ import 'package:dig_in/data/api/response/user_response.dart';
 import 'package:dig_in/domain/login/user_repository.dart';
 import 'package:dig_in/domain/models/user_model.dart';
 import 'package:dig_in/log.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
 
 class UserRepositoryImpl implements UserRepository {
   final LoginServiceFirebase _loginServiceFirebase;
@@ -46,7 +47,7 @@ class UserRepositoryImpl implements UserRepository {
   
   @override
   Future<BaseResultRepository> registerUser(UserModel userModel)async {
-     try {
+    try {
       final response = await _loginServiceFirebase.registerUser(
         userModel.parse().toJson(),userModel.uid
       );
@@ -91,14 +92,35 @@ class UserRepositoryImpl implements UserRepository {
       return BaseResultRepository.errorApi(e);
     }
   }
+  
+  @override
+  Future<BaseResultRepository> loginByGoogle() async {
+    try {
+      final response = await _loginServiceFirebase.loginByGoogle();
+      Log.i(_tag,"$response");
+      if(response == null ){
+        return BaseResultRepository.nullOrEmptyData();
+      }else{
+        return BaseResultRepository.success(response.parse().parse());
+      }
+    } on Exception catch (e) {
+      Log.e(_tag,"$e");
+      return BaseResultRepository.errorApi(e);
+    }
+  }
 }
 extension User  on UserModel{
   UserResponse parse(){
-    return UserResponse(email, password, name, lastname, uid, image);
+    return UserResponse(email, name, lastname, uid, image);
+  }
+}
+extension UserFirebase on firebase.User{
+  UserResponse parse(){
+    return UserResponse(email!, "$displayName", "", uid, "$photoURL");
   }
 }
 extension UserM  on UserResponse{
   UserModel parse(){
-    return UserModel(email, password, name, lastname, uid, image);
+    return UserModel(email, name, lastname, uid, image);
   }
 }

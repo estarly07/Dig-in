@@ -4,6 +4,7 @@ class BaseResultUseCase {
   factory BaseResultUseCase.success(dynamic data) = SuccessResponse;
   factory BaseResultUseCase.nullOrEmptyData() = NullOrEmptyData;
   factory BaseResultUseCase.errorApi(Exception exception)= ErrorResponseApi;
+  factory BaseResultUseCase.noConnectionInternet()= NoConnectionInternet;
 }
 
 class SuccessResponse extends BaseResultUseCase {

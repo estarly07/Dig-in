@@ -75,7 +75,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: size.height * 0.02,),
                     LineWithOr(color: Colors.grey.shade400,),
                     SizedBox(height: size.height * 0.02,),
-                    SocialMedia(size: size.width * 0.12,),
+                    SocialMedia(size: size.width * 0.12,onClick: (){
+                      context.read<LoginBloc>().add(LoginByGoogleEvent());
+                    },),
                     SizedBox(height: size.height * 0.02,),
                     InkWell(
                       onTap: () => setState(() {showLogin = !showLogin;}),

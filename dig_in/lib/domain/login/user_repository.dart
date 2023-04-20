@@ -7,4 +7,5 @@ abstract class UserRepository {
   Future<BaseResultRepository> registerUser(UserModel userModel);
   Future<BaseResultRepository> registerUserLocal(UserModel userModel);
   Future<BaseResultRepository> getUserRemote(String uid);
+  Future<BaseResultRepository> loginByGoogle();
 }
