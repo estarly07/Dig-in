@@ -8,18 +8,29 @@ import 'package:dig_in/presentation/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc/navigation_bloc.dart';
+
 class MyApp extends StatelessWidget {
-   const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers:[
-        BlocProvider(create: (context) => getIt<HomeCategoriesBloc>(),),
-        BlocProvider(create: (context) => getIt<MostPopularFoodsBloc>(),),
-        BlocProvider(create: (context) => getIt<MostPopularRestaurantsBloc>(),),
+      providers: [
+        BlocProvider(
+          create: (context) => getIt<HomeCategoriesBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<MostPopularFoodsBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<MostPopularRestaurantsBloc>(),
+        ),
         BlocProvider(create: (context) => getIt<FoodBloc>()),
-        BlocProvider(create: (context) => getIt<CommentsBloc>())
+        BlocProvider(create: (context) => getIt<CommentsBloc>()),
+        BlocProvider(
+          create: (context) => getIt<NavigationBloc>(),
+        )
       ],
       child: MaterialApp(
         routes: routes(),
